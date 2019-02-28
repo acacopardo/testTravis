@@ -35,7 +35,8 @@ script:
 
 
 notifications:
-  on_success: never
-  on_failure: always
-  email: a.cacopardo@redspher.com
-  c'est la merde
+  email:
+    recipients:
+    - a.cacopardo@redspher.com
+    on_success: always
+    on_failure: always 
