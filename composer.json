@@ -6,6 +6,12 @@
             "email": "pookiie57@gmail.com"
         }
     ],
+
+    "config": {
+        "platform": {
+            "php": "7.0.27"
+        }
+    },
     "require": {},
     "require-dev": {
         "codeception/codeception": "*",
