@@ -10,12 +10,12 @@ class TotoTest extends \Codeception\Test\Unit
     {
     }
 
-    public function testTitiError()
+    /*public function testTitiError()
     {
         $toto = new \TravisTest\Toto();
 
         $this->assertFalse($toto->titi());
-    }
+    }*/
 
     // tests
     public function testTitiSuccess()
