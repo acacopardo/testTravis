@@ -9,13 +9,7 @@ class TotoTest extends \Codeception\Test\Unit
     protected function _after()
     {
     }
-
-    /*public function testTitiError()
-    {
-        $toto = new \TravisTest\Toto();
-
-        $this->assertFalse($toto->titi());
-    }*/
+    
 
     // tests
     public function testTitiSuccess()
