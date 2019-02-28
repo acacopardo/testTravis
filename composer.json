@@ -1,0 +1,10 @@
+{
+    "name": "roberto/test-travis",
+    "authors": [
+        {
+            "name": "Anthony C",
+            "email": "pookiie57@gmail.com"
+        }
+    ],
+    "require": {}
+}
