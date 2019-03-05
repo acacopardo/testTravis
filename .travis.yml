@@ -18,12 +18,12 @@ cache:
 
 before_script:
 - composer self-update
-- composer install --prefer-source
+- composer install --prefer-source --no-interaction --dev
 
 script:
-- vendor/bin/codecept run
-
-
+- ./vendor/bin/codecept run
+- ./vendor/bin/phpcs -p --colors --report-full=../phpcs-reports/phpcs-report-full.txt --report-gitblame=../phpcs-reports/phpcs-report-gitblame.txt --report-info=../phpcs-reports/php
+- find ./src -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
 
 notifications:
   email:
