@@ -11,5 +11,5 @@
         <exclude name="Generic.Files.LineLength"/>
     </rule>
 
-    <file>app/src</file>
+    <file>src</file>
 </ruleset>
