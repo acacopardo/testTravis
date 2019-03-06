@@ -4,6 +4,8 @@ namespace TravisTest;
 
 class Toto
 {
-    public function titi() {return true;
+    public function titi()
+    {
+        return true;
     }
 }
