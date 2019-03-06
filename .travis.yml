@@ -13,7 +13,7 @@ before_script:
 - composer install --no-interaction --prefer-source --dev
 
 script:
-- vendor/bin/codeception
+- vendor/bin/codecept run
 - vendor/bin/phpcs --standard=phpcs.xml
 - find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
 
