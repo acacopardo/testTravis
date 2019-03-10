@@ -6,6 +6,12 @@ php:
 - '7.3'
 - nightly
 
+branches:
+  only:
+  - master
+  - develop
+  - release
+
 before_script:
 - composer self-update
 
