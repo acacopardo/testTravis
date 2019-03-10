@@ -7,10 +7,11 @@ php:
 - nightly
 
 matrix:
-  exclude:
-	- '7.0'
-	- nightly
-
+  fast_finish: true
+  allow_failures:
+	- php: nightly
+	- php: '7.0'
+	
 branches:
   only:
   - master
