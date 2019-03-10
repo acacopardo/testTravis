@@ -6,11 +6,16 @@ php:
 - '7.3'
 - nightly
 
+matrix:
+  exclude:
+	- '7.0'
+	- nightly
+
 branches:
   only:
   - master
   - develop
-  - release
+  - /^release/.*$/
 
 before_script:
 - composer self-update
