@@ -15,6 +15,12 @@ branches:
 php:
 - 7.0
 
+# Create stages to try to disable xdebug on standard tests and enable it on code coverage one
+stages:
+  - Tests
+  - Code coverage
+  - Build and deploy
+
 cache:
   directories:
   - $HOME/.composer/cache/files
@@ -22,13 +28,39 @@ cache:
 matrix:
   fast_finish: true
 
-before_script:
-- composer install --no-interaction --prefer-source --dev
-
-script:
-- vendor/bin/codecept run
-- vendor/bin/phpcs --standard=phpcs.xml
-- find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
-
-after_success:
-- php vendor/bin/coveralls
+jobs:
+  include:
+    - stage: Tests
+      php: 7.0
+      before_script:
+        - composer install --no-interaction --prefer-source --dev
+      script:
+        - vendor/bin/codecept run
+        - vendor/bin/phpcs --standard=phpcs.xml
+        - find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
+    - stage: Code coverage
+      php: 7.0
+      install:
+        - composer require --dev php-coveralls/php-coveralls
+      script:
+        - php vendor/bin/php-coveralls -v
+    - stage: Build and deploy
+      php: 7.0
+      before_install:
+        #mettre tous ce qui faut pour se connecter au serveur pour envoyer en prod (eval ssh agent envoyer la public key ssh etc)
+      deploy:
+        - provider: script
+          skip_cleanup: true
+          script: deploy_staging.sh
+          on:
+            branch: "develop"
+        - provider: script
+          skip_cleanup: true
+          script: deploy_main.sh
+          on:
+            branch: "main"
+        - provider: script
+          skip_cleanup: true
+          script: deploy_production.sh
+          on:
+            tags: true
