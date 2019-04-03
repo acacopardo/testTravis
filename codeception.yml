@@ -13,6 +13,8 @@ paths:
 coverage:
     enabled: true
     remote: false
+    low_limit: 50
+    high_limit: 90
     whitelist:
         include:
             - src/*
