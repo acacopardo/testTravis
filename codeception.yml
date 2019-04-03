@@ -10,4 +10,9 @@ paths:
     output: tests/_output
     support: tests/_support
     data: tests
-     
+coverage:
+    enabled: true
+    remote: false
+    whitelist:
+        include:
+            - src/*

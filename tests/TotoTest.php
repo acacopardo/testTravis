@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+use TravisTest\Toto;
+
 class TotoTest extends \Codeception\Test\Unit
 {
 
@@ -14,7 +17,7 @@ class TotoTest extends \Codeception\Test\Unit
     // tests
     public function testTitiSuccess()
     {
-        $toto = new \TravisTest\Toto();
+        $toto = new Toto();
 
         $this->assertTrue($toto->titi());
     }
