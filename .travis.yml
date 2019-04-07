@@ -28,15 +28,24 @@ matrix:
 
 php: 7.0
 
+before_install:
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
+  - composer validate
+
 jobs:
   include:
     - stage: composer
       script: composer install --no-interaction --prefer-source --dev
 
     - stage: Tests
+      before_script: composer install --ansi --prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress
       script: vendor/bin/codecept run
-    - script: vendor/bin/phpcs --standard=phpcs.xml
-    - script: find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
+    - stage: Tests
+      before_script: composer install --ansi --prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress
+      script: vendor/bin/phpcs --standard=phpcs.xml
+    - stage: Tests
+      before_script: composer install --ansi --prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress
+      script: find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
     #- stage: Build and deploy
     #  before_install:
       #mettre tous ce qui faut pour se connecter au serveur pour envoyer en prod (eval ssh agent envoyer la public key ssh etc)
