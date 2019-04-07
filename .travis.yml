@@ -12,9 +12,6 @@ branches:
     - develop
     - /^release/.*$/
 
-php:
-  - 7.0
-
 # Create stages to try to disable xdebug on standard tests and enable it on code coverage one
 stages:
   - Tests
@@ -25,19 +22,15 @@ cache:
   directories:
     - $HOME/.composer/cache/files
 
-matrix:
-  fast_finish: true
-
 jobs:
   include:
     - stage: Tests
       php: 7.0
       before_script:
         - composer install --no-interaction --prefer-source --dev
-      script:
-        - vendor/bin/codecept run
-        - vendor/bin/phpcs --standard=phpcs.xml
-        - find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
+    - script: vendor/bin/codecept run
+    - script: vendor/bin/phpcs --standard=phpcs.xml
+    - script: find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
     - stage: Code coverage
       php: 7.0
       install:
