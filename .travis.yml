@@ -30,12 +30,13 @@ php: 7.0
 
 before_install:
   - phpenv config-rm xdebug.ini || echo "xdebug not available"
-  - composer validate
 
 jobs:
   include:
     - stage: composer
-      script: composer install --no-interaction --prefer-source --dev
+      script:
+        - composer install --no-interaction --prefer-source --dev
+        - composer validate
 
     - stage: Tests
       before_script: composer install --ansi --prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress
