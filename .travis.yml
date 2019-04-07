@@ -22,23 +22,25 @@ cache:
   directories:
     - $HOME/.composer/cache/files
 
+matrix:
+  fast_finish: true
+
+php: 7.0
+
 jobs:
   include:
     - stage: Tests
-      php: 7.0
       before_script:
         - composer install --no-interaction --prefer-source --dev
     - script: vendor/bin/codecept run
     - script: vendor/bin/phpcs --standard=phpcs.xml
     - script: find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
     - stage: Code coverage
-      php: 7.0
       install:
         - composer require --dev php-coveralls/php-coveralls
       script:
         - php vendor/bin/php-coveralls -v
     - stage: Build and deploy
-      php: 7.0
       before_install:
       #mettre tous ce qui faut pour se connecter au serveur pour envoyer en prod (eval ssh agent envoyer la public key ssh etc)
       deploy:
