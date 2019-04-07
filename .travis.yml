@@ -36,11 +36,6 @@ jobs:
     - script: vendor/bin/codecept run
     - script: vendor/bin/phpcs --standard=phpcs.xml
     - script: find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
-    - stage: Code coverage
-      install:
-        - composer require --dev php-coveralls/php-coveralls
-      script:
-        - php vendor/bin/php-coveralls -v
     - stage: Build and deploy
       before_install:
       #mettre tous ce qui faut pour se connecter au serveur pour envoyer en prod (eval ssh agent envoyer la public key ssh etc)
