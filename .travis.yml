@@ -35,17 +35,17 @@ jobs:
   include:
     - stage: composer
       script:
-        - composer --ansi --no-interaction --no-suggest --no-progress
+        - composer --ansi --no-interaction --no-progress
         #- composer validate
 
     - stage: Tests
-      before_script: composer install --ansi --no-interaction --no-suggest --no-progress
+      before_script: composer install --ansi --no-interaction --no-progress
       script: vendor/bin/codecept run
     - stage: Tests
-      before_script: composer install --ansi --no-interaction --no-suggest --no-progress
+      before_script: composer install --ansi --no-interaction --no-progress
       script: vendor/bin/phpcs --standard=phpcs.xmlg
     - stage: Tests
-      before_script: composer install --ansi --no-interaction --no-suggest --no-progress
+      before_script: composer install --ansi --no-interaction --no-progress
       script: find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
     #- stage: Build and deploy
     #  before_install:
