@@ -1,7 +1,67 @@
 language: php
-php:
-- '7.0'
-- '7.1'
-- '7.2'
-- '7.3'
-- nightly
+
+sudo: false
+
+git:
+  quiet: true
+  depth: false
+
+branches:
+  only:
+    - master
+    - develop
+    - /^release/.*$/
+
+# Create stages to try to disable xdebug on standard tests and enable it on code coverage one
+stages:
+  - Composer
+  - Tests
+  - Code coverage
+#  - Build and deploy
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+matrix:
+  fast_finish: true
+
+php: 7.0
+
+before_install:
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
+
+jobs:
+  include:
+    - stage: composer
+      script:
+        - composer install --no-interaction --dev
+
+    - stage: Tests
+      before_script: composer install --no-interaction --dev
+      script: vendor/bin/codecept run
+    - stage: Tests
+      before_script: composer install --no-interaction --dev
+      script: vendor/bin/phpcs --standard=phpcs.xml
+    - stage: Tests
+      before_script: composer install --no-interaction --dev
+      script: find {src, app, test} -name "*.php" ! -path '*/NonPHP7.php' -print0 | xargs -0 -n1 -P8 php -l
+    #- stage: Build and deploy
+    #  before_install:
+      #mettre tous ce qui faut pour se connecter au serveur pour envoyer en prod (eval ssh agent envoyer la public key ssh etc)
+    #  deploy:
+    #    - provider: script
+    #      skip_cleanup: true
+    #      script: deploy_staging.sh
+    #      on:
+    #        branch: "develop"
+    #    - provider: script
+    #      skip_cleanup: true
+    #      script: deploy_main.sh
+    #      on:
+    #        branch: "main"
+    #    - provider: script
+    #      skip_cleanup: true
+    #      script: deploy_production.sh
+    #      on:
+    #        tags: true
