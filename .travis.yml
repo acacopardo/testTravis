@@ -5,3 +5,33 @@ php:
 - '7.2'
 - '7.3'
 - nightly
+
+matrix:
+  fast_finish: true
+  allow_failures:
+	- php: nightly
+	- php: '7.0'
+	
+branches:
+  only:
+  - master
+  - develop
+  - /^release/.*$/
+
+before_script:
+- composer self-update
+
+install:
+- composer install --no-interaction
+
+cache:
+  directories:
+  - $HOME/.composer/cache
+
+script:
+- vendor/bin/codecept run
+
+notifications:
+  email:
+    on_success: never
+    on_failure: never
